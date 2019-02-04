@@ -3,9 +3,9 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import App from './App.vue';
-import router from './router';
-import store from './store';
-import './registerServiceWorker';
+import router from '@/router';
+import store from '@/store';
+import '@/registerServiceWorker';
 import firebase from "firebase";
 import { sync } from 'vuex-router-sync';
 

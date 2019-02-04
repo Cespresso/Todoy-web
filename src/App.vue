@@ -64,12 +64,24 @@
         </v-list>
         </v-navigation-drawer>
         <v-toolbar color="pink" fixed app dark>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+            <template v-if="nowPath != '/add'">
+              <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+            </template>
+            <template v-if="nowPath == '/add'">
+              <v-btn icon @click="handleBackBtn()">
+              <v-icon>arrow_back</v-icon>
+              </v-btn>
+            </template>
+            
+            
             <v-toolbar-title>Todo</v-toolbar-title>
             <v-spacer></v-spacer>
 
             <!-- 更新ボタン-->
             <template v-if="nowPath=='/'">
+            <v-btn icon @click="handleAddTodoBtn()">
+              <v-icon>add</v-icon>
+              </v-btn>
               <v-btn icon @click="handleUpdateBtn()">
               <v-icon>update</v-icon>
               </v-btn>
@@ -109,6 +121,12 @@ export default class App extends Vue{
   }
   handleSignInBtn(){
     this.$router.push("/signin")
+  }
+  handleAddTodoBtn(){
+    this.$router.push("/add")
+  }
+  handleBackBtn(){
+    this.$router.go(-1)
   }
 }
 </script>

@@ -10,6 +10,7 @@
             </v-avatar>
             <div class="name"> <span style="font-weight:bold">{{user.displayName}}</span></div>
             <div class="email text-xs-center grey--text pt-1 pb-3">{{user.email}}</div>
+            <div class="email text-xs-center grey--text pt-1 pb-3">{{token}}</div>
             <v-btn color="error" @click="handleSignOutBtn()">SignOut</v-btn>
             <v-layout justify-space-between>
             </v-layout>
@@ -36,13 +37,17 @@ export default class Home extends Vue {
   private get user(){
     return this.$store.state.auth
   }
+  private get token(){
+    return this.$store.state.token
+  }
   // サインアウトボタンのハンドラー
   handleSignOutBtn():void{
       this.$store.dispatch('singOutByGoogle')
   }
   // マウント後に呼び出されるコールバックメソッド
   mounted():void {
-    console.log("mounted")
+    this.$store.dispatch('refreshIdToken');
+    console.log("mounted");
   }
 　@Watch('user')
   watchChangeUser(newUser:any,oldUser:any):void{
