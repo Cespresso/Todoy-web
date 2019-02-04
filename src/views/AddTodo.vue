@@ -48,6 +48,7 @@ export default class Home extends Vue {
         this.loading = true
         this.$store.dispatch("postTodo",new Todo(this.title,this.body)).then(()=>{
             console.log("追加に成功しました")
+             this.$router.go(-1)
             this.loading = false
         }).catch(()=>{
             console.log("追加に失敗しました")
