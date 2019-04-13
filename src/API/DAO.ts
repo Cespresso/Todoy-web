@@ -13,7 +13,7 @@ export default class DAO{
         return DAO._instance;
     }
     private static _instance:DAO
-    private _endPoint:string = "http://localhost:8080";
+    private _endPoint:string = "https://espresso-dev-api.site";
     private constructor(){
     }
     /**
