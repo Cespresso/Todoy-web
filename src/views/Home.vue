@@ -10,7 +10,7 @@
         <v-card v-if="todo.items.length!=0">
         <v-list two-line>
             <template v-for="(item, index) in todo.items">
-            <v-list-tile :key="index" avatar ripple @click=""><!-- TODO　widget handlingをどうにかする-->
+            <v-list-tile :key="index" avatar @click=""><!-- TODO　widget handlingをどうにかする-->
                     <v-list-tile-action>
                             <v-checkbox
                               v-model="widgets"
@@ -18,12 +18,17 @@
                           </v-list-tile-action>
                 <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                <v-list-tile-sub-title class="text--primary">{{ item.headline }}</v-list-tile-sub-title>
-                <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+                <v-list-tile-sub-title>{{ item.body }}</v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                <v-list-tile-action-text>{{ item.action }}</v-list-tile-action-text>
-                <v-icon color="grey lighten-1">delete</v-icon>
+                  <v-btn icon ripple>
+                    <v-icon color="grey lighten-1">delete</v-icon>
+                  </v-btn>
+                </v-list-tile-action>
+                <v-list-tile-action>
+                  <v-btn icon ripple>
+                    <v-icon color="grey lighten-1">edit</v-icon>
+                  </v-btn>
                 </v-list-tile-action>
             </v-list-tile>
             <v-divider v-if="index + 1 < todo.items.length" :key="`divider-${index}`"></v-divider>
