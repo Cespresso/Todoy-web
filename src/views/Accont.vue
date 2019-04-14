@@ -10,7 +10,6 @@
             </v-avatar>
             <div class="name"> <span style="font-weight:bold">{{user.displayName}}</span></div>
             <div class="email text-xs-center grey--text pt-1 pb-3">{{user.email}}</div>
-            <div class="email text-xs-center grey--text pt-1 pb-3">{{token}}</div>
             <v-btn color="error" @click="handleSignOutBtn()">SignOut</v-btn>
             <v-btn color="primary" @click="handleCopyAccessTokenBtn()">Copy AccessToken</v-btn>
             <v-layout justify-space-between>

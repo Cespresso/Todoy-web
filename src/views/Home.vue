@@ -26,7 +26,7 @@
                   </v-btn>
                 </v-list-tile-action>
                 <v-list-tile-action>
-                  <v-btn icon ripple>
+                  <v-btn icon ripple @click="handleEditBtn(item.id)">
                     <v-icon color="grey lighten-1">edit</v-icon>
                   </v-btn>
                 </v-list-tile-action>
@@ -58,6 +58,9 @@ export default class Home extends Vue {
   mounted():void {
     console.log("mounted")
     this.$store.dispatch('getAllTodosInAPI')
+  }
+  handleEditBtn(id):void{
+    this.$router.push(`/edit/${id}`)
   }
 }
 </script>
