@@ -12,6 +12,7 @@
             <div class="email text-xs-center grey--text pt-1 pb-3">{{user.email}}</div>
             <div class="email text-xs-center grey--text pt-1 pb-3">{{token}}</div>
             <v-btn color="error" @click="handleSignOutBtn()">SignOut</v-btn>
+            <v-btn color="primary" @click="handleCopyAccessTokenBtn()">Copy AccessToken</v-btn>
             <v-layout justify-space-between>
             </v-layout>
         </div>
@@ -44,6 +45,14 @@ export default class Home extends Vue {
   handleSignOutBtn():void{
       this.$store.dispatch('singOutByGoogle')
   }
+  handleCopyAccessTokenBtn():void{
+    let result = this.execCopy(this.$store.state.token)
+    if(result){
+      alert("コピーしました。")
+    }else{
+      alert("コピーに失敗しました。")
+    }
+  }
   // マウント後に呼び出されるコールバックメソッド
   mounted():void {
     this.$store.dispatch('refreshIdToken');
@@ -54,6 +63,26 @@ export default class Home extends Vue {
       this.$router.push('/signin')
       console.log("ユーザー情報が書き換えられました")
   }
+  private execCopy(string):boolean{
+    let temp = document.createElement('textarea');
+
+    temp.value = string;
+    temp.selectionStart = 0;
+    temp.selectionEnd = temp.value.length;
+
+    let s = temp.style;
+    s.position = 'fixed';
+    s.left = '-100%';
+
+    document.body.appendChild(temp);
+    temp.focus();
+    let result:boolean = document.execCommand('copy');
+    temp.blur();
+    document.body.removeChild(temp);
+    // true なら実行できている falseなら失敗か対応していないか
+    return result;
+  }
+
 }
 </script>
 <style>
