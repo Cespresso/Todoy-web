@@ -17,18 +17,22 @@ export default class DAO{
             console.log("DAO Instance1を作成しました")
             DAO._instance =  new DAO()
         }
-        axios.interceptors.request.use(request => {
+        DAO.axiosClient = axios.create()
+        DAO.axiosClient.interceptors.request.use(request => {
             console.log('Starting Request: ', request)
             return request
         })
         
-        axios.interceptors.response.use(response => {
+        DAO.axiosClient.interceptors.response.use(response => {
             console.log('Response: ', response)
             return response
         })
+        
+        DAO.axiosClient.defaults.timeout = 10000;
         return DAO._instance;
     }
     private static _instance:DAO
+    private static axiosClient
     private _endPoint:string = "https://espresso-dev-api.site";
     private constructor(){
     }
