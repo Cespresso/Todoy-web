@@ -56,4 +56,24 @@ export default class DAO{
             },
         })
     }
+
+    public async editTodo(token: string, todo: Todo) {
+        return axios.post(this._endPoint + `/todo/${todo.id}`,
+        todo,
+        {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        })
+    }
+
+    public async deleteTodo(token: string, todo: Todo) {
+        return axios.post(this._endPoint + `/todo/${todo.id}`,
+        todo,
+        {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        })
+    }
 }
