@@ -10,6 +10,8 @@ export default class DAO{
             console.log("DAO Instance1を作成しました")
             DAO._instance =  new DAO()
         }
+        DAO.axiosClient = axios.create()
+        DAO.axiosClient.defaults.timeout = 5000;
         return DAO._instance;
     }
     public static getDebugInstance():DAO{
@@ -41,18 +43,18 @@ export default class DAO{
      * @param token 
      */
     public async getAllTodosByAuthToken(token:String):Promise<any>{
-        return axios.get(this._endPoint + '/todo',{
+        return DAO.axiosClient.get(this._endPoint + '/todo',{
             headers: {
                 Authorization: 'Bearer ' + token,
             },
         })
     }
     public async getServerStatus():Promise<any>{
-        return axios.get(this._endPoint + '/server')
+        return DAO.axiosClient.get(this._endPoint + '/server')
     }
 
     public async postTodo(token: string, todo: Todo) {
-        return axios.post(this._endPoint + '/todo',
+        return DAO.axiosClient.post(this._endPoint + '/todo',
         todo,
         {
             headers: {
@@ -62,7 +64,7 @@ export default class DAO{
     }
 
     public async editTodo(token: string, todo: Todo) {
-        return axios.post(this._endPoint + `/todo/${todo.id}`,
+        return DAO.axiosClient.post(this._endPoint + `/todo/${todo.id}`,
         todo,
         {
             headers: {
@@ -71,9 +73,8 @@ export default class DAO{
         })
     }
 
-    public async deleteTodo(token: string, todo: Todo) {
-        return axios.post(this._endPoint + `/todo/${todo.id}`,
-        todo,
+    public async deleteTodo(token: string,todo: Todo) {
+        return DAO.axiosClient.delete(this._endPoint + `/todo/${todo.id}`,
         {
             headers: {
                 Authorization: 'Bearer ' + token,
