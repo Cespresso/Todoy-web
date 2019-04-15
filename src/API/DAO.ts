@@ -12,6 +12,22 @@ export default class DAO{
         }
         return DAO._instance;
     }
+    public static getDebugInstance():DAO{
+        if(!DAO._instance){
+            console.log("DAO Instance1を作成しました")
+            DAO._instance =  new DAO()
+        }
+        axios.interceptors.request.use(request => {
+            console.log('Starting Request: ', request)
+            return request
+        })
+        
+        axios.interceptors.response.use(response => {
+            console.log('Response: ', response)
+            return response
+        })
+        return DAO._instance;
+    }
     private static _instance:DAO
     private _endPoint:string = "https://espresso-dev-api.site";
     private constructor(){
