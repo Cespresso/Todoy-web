@@ -64,10 +64,10 @@
         </v-list>
         </v-navigation-drawer>
         <v-toolbar color="pink" fixed app dark>
-            <template v-if="nowPath != '/add'">
+            <template v-if="isTopLevelPath">
               <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             </template>
-            <template v-if="nowPath == '/add'">
+            <template v-if="!isTopLevelPath">
               <v-btn icon @click="handleBackBtn()">
               <v-icon>arrow_back</v-icon>
               </v-btn>
@@ -101,11 +101,15 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component
 export default class App extends Vue{
   private drawer:any = null;
+  private TOP_LEVEL_PATH = ["/","/account","/about","signin"]
   private get auth(){
     return this.$store.state.auth
   }
   private get nowPath(){
     return this.$route.path;
+  }
+  private get isTopLevelPath(){
+      return this.TOP_LEVEL_PATH.includes(this.$route.path)
   }
   handleUpdateBtn(){
     this.$store.dispatch("getAllTodosInAPI")

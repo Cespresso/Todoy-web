@@ -81,6 +81,19 @@ export default new Vuex.Store({
       })
       return Promise.resolve<boolean>(true)
     },
+
+    async editTodo({commit,state},todo:Todo){
+      const dao = DAO.getinstance();
+      let token:string =  await state.auth.getIdToken(true).catch(e=>{
+        Promise.reject("トークンの取得に失敗しました。")
+      })
+      dao.editTodo(token,todo).catch(e=>{
+        return Promise.reject("TODOの追加に失敗しました。")
+      }).then(()=> {
+            return Promise.resolve<boolean>(true)
+          }
+      )
+    },
     /**
      * googleのアカウントでサインインするアクション
      * @param param0

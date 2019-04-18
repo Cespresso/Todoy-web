@@ -17,12 +17,12 @@
                 auto-grow
             ></v-textarea>
             <v-btn 
-                @click="handleAddBtn()"
+                @click="handleEditBtn()"
                 color = "primary"
                 block
                 :loading="loading"
                 :disabled="loading"
-            >Add</v-btn>
+            >Save</v-btn>
             </v-form>
         </v-flex>
     </v-layout>
@@ -38,24 +38,38 @@ import Todo from '@/API/Entity/Todo';
     HelloWorld,
   },
 })
-export default class Home extends Vue {
+export default class EditTodo extends Vue {
   public title:string = ""
   public body:string  =""
   private loading:boolean = false
-  
-    handleAddBtn():void{
-        this.loading = true
-        this.$store.dispatch("postTodo",new Todo(this.title,this.body)).then(()=>{
-            console.log("追加に成功しました")
-             this.$router.go(-1)
-            this.loading = false
-        }).catch(()=>{
-            console.log("追加に失敗しました")
-            this.loading = false
-        })
+  private id:number
+  private todo:Todo
+
+  handleEditBtn():void{
+    this.loading = true
+
+    this.todo.title = this.title
+    this.todo.body = this.body
+
+    this.$store.dispatch("editTodo",this.todo).then(()=>{
+    　　console.log("編集に成功しました")
+    　　this.$router.go(-1)
+    　　this.loading = false
+    }).catch(()=>{
+        console.log("編集に失敗しました")
+        this.loading = false
+    })
   }
   mounted():void {
-      console.log("access id:"+this.$route.params.id)
+      this.id = parseInt(this.$route.params.id)
+      let todo:Todo = this.$store.state.todo.items.filter(todo=>todo.id == this.id)[0]
+      if(todo == null){
+
+          return
+      }
+      this.title = todo.title
+      this.body = todo.body
+      this.todo = todo
   }
 }
 </script>
