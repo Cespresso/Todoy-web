@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import MockUtil from "@/MockUtil";
 import DAO from "@/API/DAO";
 import Todo from "@/API/Entity/Todo"
+import {plainToClass} from "class-transformer";
 
 Vue.use(Vuex);
 
@@ -11,7 +12,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     todo: {
-      progress: false,
       items: [],
     },
     auth: null,
@@ -41,28 +41,21 @@ export default new Vuex.Store({
      * @param param0
      */
     async getAllTodosInAPI({commit,state}){
-      commit("setTodos",{
-        progress:true,
-        items:[],
-      })
       const dao = DAO.getinstance();
       let token = "";
       let result = null
       token = await state.auth.getIdToken(true).catch((e)=>{
         console.log("失敗しました")
+        return Promise.reject("トークンの取得に失敗しました。")
       })
       result = await dao.getAllTodosByAuthToken(token).catch((e)=>{
         console.log("TODOの取得に失敗しました。")
-        commit("setTodos",{
-          progress: false,
-          items: [],
-        })
+        return Promise.reject("TODOの取得に失敗しました。")
       })
       console.log("アクションが呼び出されました")
-      let todos = (result.data) as Todo;
+      let todos:Array<Todo> =  result.data.map((item)=>plainToClass(Todo,item));
       console.log(result)
       commit("setTodos",{
-        progress: false,
         items: todos,
       })
       return Promise.resolve<boolean>(true)

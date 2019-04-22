@@ -1,27 +1,32 @@
 <template>
 <v-layout row>
     <v-flex xs12 sm10 offset-sm1>
-      <template v-if="todo.progress">
+      <template v-if="progress">
         <v-progress-circular
         indeterminate
         color="red"
         ></v-progress-circular>
       </template> 
-        <v-card v-if="todo.items.length!=0">
+        <v-card>
         <v-list two-line>
             <template v-for="(item, index) in todo.items">
             <v-list-tile :key="index" avatar @click=""><!-- TODO　widget handlingをどうにかする-->
-                    <v-list-tile-action>
-                            <v-checkbox
-                              v-model="widgets"
-                            ></v-checkbox>
-                          </v-list-tile-action>
+                <v-list-tile-action>
+                  <v-btn icon ripple>
+                    <template v-if="item.completed == true">
+                      <v-icon color="black lighten-1">check_box</v-icon>
+                    </template>
+                    <template v-else>
+                      <v-icon color="grey lighten-1">check_box_outline_blank</v-icon>
+                    </template>
+                  </v-btn>
+                </v-list-tile-action>
                 <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                 <v-list-tile-sub-title>{{ item.body }}</v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                  <v-btn icon ripple>
+                  <v-btn icon ripple @click.stop="dialog = true">
                     <v-icon color="grey lighten-1">delete</v-icon>
                   </v-btn>
                 </v-list-tile-action>
@@ -42,6 +47,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import HelloWorld from '@/components/HelloWorld.vue';
+import Todo from '@/API/Entity/Todo'; // @ is an alias to /src
 
 @Component({
   components: {
@@ -49,18 +56,24 @@ import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
   },
 })
 export default class Home extends Vue {
-  public title:string = "Your Logo"
   private progress:boolean = false;
+  private todos:Array<Todo>
   private get todo(){
     return this.$store.state.todo
   }
   // マウント後に呼び出されるコールバックメソッド
   mounted():void {
     console.log("mounted")
-    this.$store.dispatch('getAllTodosInAPI')
+    this.progress = true
+    this.$store.dispatch('getAllTodosInAPI').finally(()=> {
+        this.progress = false
+    })
   }
   handleEditBtn(id):void{
     this.$router.push(`/edit/${id}`)
+  }
+  handleCheckBtn(id){
+    console.log(id)
   }
 }
 </script>
