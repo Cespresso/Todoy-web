@@ -60,6 +60,11 @@ export default new Vuex.Store({
       })
       return Promise.resolve<boolean>(true)
     },
+    /**
+     * Todoを新規で追加するアクション
+     * @param param0 
+     * @param todo 
+     */
     async postTodo({commit,state}, todo: Todo ) {
       const dao =  DAO.getinstance();
       let token = "";
@@ -74,14 +79,58 @@ export default new Vuex.Store({
       })
       return Promise.resolve<boolean>(true)
     },
-
+    /**
+     * Todoを編集するアクション
+     * @param param0 
+     * @param todo 
+     */
     async editTodo({commit,state},todo:Todo){
       const dao = DAO.getinstance();
       let token:string =  await state.auth.getIdToken(true).catch(e=>{
         Promise.reject("トークンの取得に失敗しました。")
       })
       dao.editTodo(token,todo).catch(e=>{
-        return Promise.reject("TODOの追加に失敗しました。")
+        return Promise.reject("TODOの編集に失敗しました。")
+      }).then(()=> {
+            return Promise.resolve<boolean>(true)
+          }
+      )
+    },
+    /**
+     * 
+     * @param param0 
+     * @param todo 
+     */
+    async editTodoComplete({commit,state},todo:Todo){
+      const dao = DAO.getinstance();
+      let oldTodos = state.todo.items
+      let newTodos = oldTodos.map(item=>{
+        if(todo.id === item.id){
+          item = todo
+        }
+        return item
+      })
+      commit("setTodos",{
+        items: newTodos,
+      })
+      let auth = state.auth
+      if(auth===null){
+        commit("setTodos",{
+          items: oldTodos,
+        })
+        return Promise.reject("トークンの取得に失敗しました。")
+      }
+      let token:string =  await state.auth.getIdToken(true).catch(e=>{
+        commit("setTodos",{
+          items: oldTodos,
+        })
+        Promise.reject("トークンの取得に失敗しました。")
+      })
+      dao.editTodo(token,todo).catch(e=>{
+        commit("setTodos",{
+          items: oldTodos,
+        })
+        return Promise.reject("TODOの編集に失敗しました。")
       }).then(()=> {
             return Promise.resolve<boolean>(true)
           }

@@ -12,7 +12,7 @@
             <template v-for="(item, index) in todo.items">
             <v-list-tile :key="index" avatar @click=""><!-- TODO　widget handlingをどうにかする-->
                 <v-list-tile-action>
-                  <v-btn icon ripple>
+                  <v-btn icon ripple @click="handleCheckBtn(item)">
                     <template v-if="item.completed == true">
                       <v-icon color="black lighten-1">check_box</v-icon>
                     </template>
@@ -85,8 +85,6 @@ export default class Home extends Vue {
   handleEditBtn(id):void{
     this.$router.push(`/edit/${id}`)
   }
-  handleCheckBtn(id){
-    console.log(id)
   handleAddTodoBtn(){
     this.$router.push("/add")
   }
