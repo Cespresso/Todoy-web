@@ -40,7 +40,20 @@
             </template>
         </v-list>
         </v-card>
+      </v-card>
+      <v-btn
+        color="pink"
+        dark 
+        fab
+        fixed
+        bottom
+        right
+        @click="handleAddTodoBtn()"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
     </v-flex>
+    
 </v-layout>
 </template>
 
@@ -74,6 +87,12 @@ export default class Home extends Vue {
   }
   handleCheckBtn(id){
     console.log(id)
+  handleAddTodoBtn(){
+    this.$router.push("/add")
+  }
+  handleCheckBtn(todo:Todo){
+    todo.completed = !todo.completed
+    this.$store.dispatch('editTodoComplete',todo)
   }
 }
 </script>
