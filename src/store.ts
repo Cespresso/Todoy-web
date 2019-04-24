@@ -136,6 +136,36 @@ export default new Vuex.Store({
           }
       )
     },
+    async deleteTodo({commit,state},todo:Todo){
+      const dao = DAO.getinstance();
+      let oldTodos = state.todo.items
+      let newTodos = oldTodos.filter( (item: Todo) => item.id !== todo.id )
+      commit("setTodos",{
+        items: newTodos,
+      })
+      let auth = state.auth
+      if(auth===null){
+        commit("setTodos",{
+          items: oldTodos,
+        })
+        return Promise.reject("トークンの取得に失敗しました。")
+      }
+      let token:string =  await state.auth.getIdToken(true).catch(e=>{
+        commit("setTodos",{
+          items: oldTodos,
+        })
+        Promise.reject("トークンの取得に失敗しました。")
+      })
+      dao.deleteTodo(token,todo).catch(e=>{
+        commit("setTodos",{
+          items: oldTodos,
+        })
+        return Promise.reject("TODOの編集に失敗しました。")
+      }).then(()=> {
+            return Promise.resolve<boolean>(true)
+          }
+      )
+    },
     /**
      * googleのアカウントでサインインするアクション
      * @param param0

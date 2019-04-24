@@ -85,11 +85,16 @@ export default class Show extends Vue {
   handleEditBtn():void{
     this.$router.push(`/edit/${this.id}`)
   }
-  handleDialogBtn(answer:boolean){
-    // if(answer){
-    //   this.$store.dispatch("delte")
-    // }
-    // this.dialog = false
+  async handleDialogBtn(answer:boolean){
+    if(answer){
+      let result = await this.$store.dispatch("deleteTodo",this.todo)
+      .catch(()=>{
+        console.log("削除に失敗しました")
+      })
+      console.log("削除に成功しました")
+      this.$router.go(-1)
+    }
+    this.dialog = false
   }
   mounted():void {
       this.id = parseInt(this.$route.params.id)
