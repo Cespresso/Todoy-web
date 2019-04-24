@@ -43,6 +43,12 @@ let router = new Router({
       meta: { requiresAuth: true },
     },
     {
+      path: '/show/:id',
+      name: 'edit',
+      component: () => import(/* webpackChunkName: "about" */ './views/ShowTodo.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/edit/:id',
       name: 'edit',
       component: () => import(/* webpackChunkName: "about" */ './views/EditTodo.vue'),

@@ -21,25 +21,14 @@
                     </template>
                   </v-btn>
                 </v-list-tile-action>
-                <v-list-tile-content>
+                <v-list-tile-content @click="handleShowBtn(item.id)">
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                 <v-list-tile-sub-title>{{ item.body }}</v-list-tile-sub-title>
                 </v-list-tile-content>
-                <v-list-tile-action>
-                  <v-btn icon ripple @click.stop="dialog = true">
-                    <v-icon color="grey lighten-1">delete</v-icon>
-                  </v-btn>
-                </v-list-tile-action>
-                <v-list-tile-action>
-                  <v-btn icon ripple @click="handleEditBtn(item.id)">
-                    <v-icon color="grey lighten-1">edit</v-icon>
-                  </v-btn>
-                </v-list-tile-action>
             </v-list-tile>
             <v-divider v-if="index + 1 < todo.items.length" :key="`divider-${index}`"></v-divider>
             </template>
         </v-list>
-        </v-card>
       </v-card>
       <v-btn
         color="pink"
@@ -60,7 +49,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
 import Todo from '@/API/Entity/Todo'; // @ is an alias to /src
 
 @Component({
@@ -81,6 +69,9 @@ export default class Home extends Vue {
     this.$store.dispatch('getAllTodosInAPI').finally(()=> {
         this.progress = false
     })
+  }
+  handleShowBtn(id):void{
+    this.$router.push(`/show/${id}`)
   }
   handleEditBtn(id):void{
     this.$router.push(`/edit/${id}`)
