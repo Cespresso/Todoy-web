@@ -74,7 +74,7 @@
             </template>
             
             
-            <v-toolbar-title>Todo</v-toolbar-title>
+            <v-toolbar-title>Todoy</v-toolbar-title>
             <v-spacer></v-spacer>
 
             <!-- 更新ボタン-->
