@@ -28,47 +28,47 @@ let router = new Router({
     {
       path: '/signin',
       name: 'signin',
-      component: () => import(/* webpackChunkName: "about" */ './views/SignIn.vue'),
+      component: () => import('./views/SignIn.vue'),
     },
     {
       path: '/account',
       name: 'account',
-      component: () => import(/* webpackChunkName: "about" */ './views/Accont.vue'),
+      component: () => import('./views/Accont.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/add',
       name: 'add',
-      component: () => import(/* webpackChunkName: "about" */ './views/AddTodo.vue'),
+      component: () => import('./views/AddTodo.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/show/:id',
       name: 'edit',
-      component: () => import(/* webpackChunkName: "about" */ './views/ShowTodo.vue'),
+      component: () => import('./views/ShowTodo.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/edit/:id',
       name: 'edit',
-      component: () => import(/* webpackChunkName: "about" */ './views/EditTodo.vue'),
+      component: () => import('./views/EditTodo.vue'),
       meta: { requiresAuth: true },
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  let requresAuth = to.matched.some( record => record.meta.requiresAuth)
+  let requresAuth = to.matched.some(record => record.meta.requiresAuth)
   let currentUser = firebase.auth().currentUser
   console.log("router brfore each が呼び出されました")
-  store.commit('setAuth', currentUser )
-  if( requresAuth ) {
+  store.commit('setAuth', currentUser)
+  if (requresAuth) {
     // meta routerオブジェクトのrequresAuthがtureか？
-    if( !currentUser ) {
+    if (!currentUser) {
       next({
         path: '/signin',
-        query: {redirect: to.fullPath},
-      } )
+        query: { redirect: to.fullPath },
+      })
     } else {
       next();
     }
