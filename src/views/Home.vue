@@ -47,41 +47,41 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import Todo from '@/API/Entity/Todo'; // @ is an alias to /src
+import { Component, Vue } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import Todo from "@/API/Entity/Todo"; // @ is an alias to /src
 
 @Component({
   components: {
-    HelloWorld,
-  },
+    HelloWorld
+  }
 })
 export default class Home extends Vue {
-  private progress:boolean = false;
-  private todos:Array<Todo>
-  private get todo(){
-    return this.$store.state.todo
+  private progress: boolean = false;
+  private todos: Array<Todo>;
+  private get todo() {
+    return this.$store.state.todo;
   }
   // マウント後に呼び出されるコールバックメソッド
-  mounted():void {
-    console.log("mounted")
-    this.progress = true
-    this.$store.dispatch('getAllTodosInAPI').finally(()=> {
-        this.progress = false
-    })
+  mounted(): void {
+    console.log("mounted");
+    this.progress = true;
+    this.$store.dispatch("getAllTodosInAPI").finally(() => {
+      this.progress = false;
+    });
   }
-  handleShowBtn(id):void{
-    this.$router.push(`/show/${id}`)
+  handleShowBtn(id): void {
+    this.$router.push(`/show/${id}`);
   }
-  handleEditBtn(id):void{
-    this.$router.push(`/edit/${id}`)
+  handleEditBtn(id): void {
+    this.$router.push(`/edit/${id}`);
   }
-  handleAddTodoBtn(){
-    this.$router.push("/add")
+  handleAddTodoBtn() {
+    this.$router.push("/add");
   }
-  handleCheckBtn(todo:Todo){
-    todo.completed = !todo.completed
-    this.$store.dispatch('editTodoComplete',todo)
+  handleCheckBtn(todo: Todo) {
+    todo.completed = !todo.completed;
+    this.$store.dispatch("editTodoComplete", todo);
   }
 }
 </script>

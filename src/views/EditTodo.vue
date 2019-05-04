@@ -29,47 +29,51 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import Todo from '@/API/Entity/Todo';
+import { Component, Vue } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import Todo from "@/API/Entity/Todo";
 
 @Component({
   components: {
-    HelloWorld,
-  },
+    HelloWorld
+  }
 })
 export default class EditTodo extends Vue {
-  public title:string = ""
-  public body:string  =""
-  private loading:boolean = false
-  private id:number
-  private todo:Todo
+  public title: string = "";
+  public body: string = "";
+  private loading: boolean = false;
+  private id: number;
+  private todo: Todo;
 
-  handleEditBtn():void{
-    this.loading = true
+  handleEditBtn(): void {
+    this.loading = true;
 
-    this.todo.title = this.title
-    this.todo.body = this.body
+    this.todo.title = this.title;
+    this.todo.body = this.body;
 
-    this.$store.dispatch("editTodo",this.todo).then(()=>{
-    　　console.log("編集に成功しました")
-    　　this.$router.go(-1)
-    　　this.loading = false
-    }).catch(()=>{
-        console.log("編集に失敗しました")
-        this.loading = false
-    })
+    this.$store
+      .dispatch("editTodo", this.todo)
+      .then(() => {
+        console.log("編集に成功しました");
+        this.$router.go(-1);
+        this.loading = false;
+      })
+      .catch(() => {
+        console.log("編集に失敗しました");
+        this.loading = false;
+      });
   }
-  mounted():void {
-      this.id = parseInt(this.$route.params.id)
-      let todo:Todo = this.$store.state.todo.items.filter(todo=>todo.id == this.id)[0]
-      if(todo == null){
-
-          return
-      }
-      this.title = todo.title
-      this.body = todo.body
-      this.todo = todo
+  mounted(): void {
+    this.id = parseInt(this.$route.params.id);
+    let todo: Todo = this.$store.state.todo.items.filter(
+      todo => todo.id == this.id
+    )[0];
+    if (todo == null) {
+      return;
+    }
+    this.title = todo.title;
+    this.body = todo.body;
+    this.todo = todo;
   }
 }
 </script>

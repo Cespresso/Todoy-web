@@ -6,14 +6,14 @@ export default class Todo {
     public body: string;
 
     public get shortBody() {
-        if ( this.body.length >= 15) {
+        if (this.body.length >= 15) {
             return this.body.slice(0, 15) + '...';
         }
         return this.body;
     }
 
     constructor(title: string, body: string);
-    constructor(title: string, body: string, id?: number, userId?: string, completed?: boolean){
+    constructor(title: string, body: string, id?: number, userId?: string, completed?: boolean) {
         this.id = id || null;
         this.user_id = userId || null;
         this.completed = completed || false;

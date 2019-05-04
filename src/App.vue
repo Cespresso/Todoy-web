@@ -94,44 +94,44 @@
     </html>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
 @Component
-export default class App extends Vue{
-  private drawer:any = null;
-  private TOP_LEVEL_PATH = ["/","/account","/about","/signin"]
-  private get auth(){
-    return this.$store.state.auth
+export default class App extends Vue {
+  private drawer: any = null;
+  private TOP_LEVEL_PATH = ["/", "/account", "/about", "/signin"];
+  private get auth() {
+    return this.$store.state.auth;
   }
-  private get nowPath(){
+  private get nowPath() {
     return this.$route.path;
   }
-  private get isTopLevelPath(){
-      return this.TOP_LEVEL_PATH.includes(this.$route.path)
+  private get isTopLevelPath() {
+    return this.TOP_LEVEL_PATH.includes(this.$route.path);
   }
-  handleUpdateBtn(){
-    this.$store.dispatch("getAllTodosInAPI")
+  handleUpdateBtn() {
+    this.$store.dispatch("getAllTodosInAPI");
   }
-  handleAccountBtn(){
-    this.$router.push("/account")
+  handleAccountBtn() {
+    this.$router.push("/account");
   }
-  handleAboutBtn(){
-    this.$router.push("/about")
+  handleAboutBtn() {
+    this.$router.push("/about");
   }
-  handleHomeBtn(){
-    this.$router.push("/")
+  handleHomeBtn() {
+    this.$router.push("/");
   }
-  handleSignInBtn(){
-    this.$router.push("/signin")
+  handleSignInBtn() {
+    this.$router.push("/signin");
   }
-  handleBackBtn(){
-    this.$router.go(-1)
+  handleBackBtn() {
+    this.$router.go(-1);
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

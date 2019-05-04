@@ -20,76 +20,75 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { Component, Vue, Watch } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 
 @Component({
   components: {
-    HelloWorld,
-  },
+    HelloWorld
+  }
 })
 export default class Home extends Vue {
-  public title:string = "Your Logo"
-  private progress:boolean = false;
-  private get todo(){
-    return this.$store.state.todo
+  public title: string = "Your Logo";
+  private progress: boolean = false;
+  private get todo() {
+    return this.$store.state.todo;
   }
-  private get user(){
-    return this.$store.state.auth
+  private get user() {
+    return this.$store.state.auth;
   }
-  private get token(){
-    return this.$store.state.token
+  private get token() {
+    return this.$store.state.token;
   }
   // サインアウトボタンのハンドラー
-  handleSignOutBtn():void{
-      this.$store.dispatch('singOutByGoogle')
+  handleSignOutBtn(): void {
+    this.$store.dispatch("singOutByGoogle");
   }
-  handleCopyAccessTokenBtn():void{
-    let result = this.execCopy(this.$store.state.token)
-    if(result){
-      alert("コピーしました。")
-    }else{
-      alert("コピーに失敗しました。")
+  handleCopyAccessTokenBtn(): void {
+    let result = this.execCopy(this.$store.state.token);
+    if (result) {
+      alert("コピーしました。");
+    } else {
+      alert("コピーに失敗しました。");
     }
   }
   // マウント後に呼び出されるコールバックメソッド
-  mounted():void {
-    this.$store.dispatch('refreshIdToken');
+  mounted(): void {
+    this.$store.dispatch("refreshIdToken");
     console.log("mounted");
   }
-　@Watch('user')
-  watchChangeUser(newUser:any,oldUser:any):void{
-      this.$router.push('/signin')
-      console.log("ユーザー情報が書き換えられました")
+  @Watch("user")
+  watchChangeUser(newUser: any, oldUser: any): void {
+    this.$router.push("/signin");
+    console.log("ユーザー情報が書き換えられました");
   }
-  private execCopy(string):boolean{
-    let temp = document.createElement('textarea');
+  private execCopy(string): boolean {
+    let temp = document.createElement("textarea");
 
     temp.value = string;
     temp.selectionStart = 0;
     temp.selectionEnd = temp.value.length;
 
     let s = temp.style;
-    s.position = 'fixed';
-    s.left = '-100%';
+    s.position = "fixed";
+    s.left = "-100%";
 
     document.body.appendChild(temp);
     temp.focus();
-    let result:boolean = document.execCommand('copy');
+    let result: boolean = document.execCommand("copy");
     temp.blur();
     document.body.removeChild(temp);
     // true なら実行できている falseなら失敗か対応していないか
     return result;
   }
-
 }
 </script>
 <style>
-.name{
-    padding-top: 8px;
+.name {
+  padding-top: 8px;
 }
-#account-info{
-    padding-top: 16px;
+#account-info {
+  padding-top: 16px;
 }
 </style>
 

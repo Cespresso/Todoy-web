@@ -66,46 +66,48 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import Todo from '@/API/Entity/Todo';
+import { Component, Vue } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import Todo from "@/API/Entity/Todo";
 
 @Component({
   components: {
-    HelloWorld,
-  },
+    HelloWorld
+  }
 })
 export default class Show extends Vue {
-  public dialog = false
-  public id:number
-  public title:string = ""
-  public body:string  =""
-  private todo:Todo
-  
-  handleEditBtn():void{
-    this.$router.push(`/edit/${this.id}`)
-  }
-  async handleDialogBtn(answer:boolean){
-    if(answer){
-      let result = await this.$store.dispatch("deleteTodo",this.todo)
-      .catch(()=>{
-        console.log("削除に失敗しました")
-      })
-      console.log("削除に成功しました")
-      this.$router.go(-1)
-    }
-    this.dialog = false
-  }
-  mounted():void {
-      this.id = parseInt(this.$route.params.id)
-      let todo:Todo = this.$store.state.todo.items.filter(todo=>todo.id == this.id)[0]
-      if(todo == null){
+  public dialog = false;
+  public id: number;
+  public title: string = "";
+  public body: string = "";
+  private todo: Todo;
 
-          return
-      }
-      this.title = todo.title
-      this.body = todo.body
-      this.todo = todo
+  handleEditBtn(): void {
+    this.$router.push(`/edit/${this.id}`);
+  }
+  async handleDialogBtn(answer: boolean) {
+    if (answer) {
+      let result = await this.$store
+        .dispatch("deleteTodo", this.todo)
+        .catch(() => {
+          console.log("削除に失敗しました");
+        });
+      console.log("削除に成功しました");
+      this.$router.go(-1);
+    }
+    this.dialog = false;
+  }
+  mounted(): void {
+    this.id = parseInt(this.$route.params.id);
+    let todo: Todo = this.$store.state.todo.items.filter(
+      todo => todo.id == this.id
+    )[0];
+    if (todo == null) {
+      return;
+    }
+    this.title = todo.title;
+    this.body = todo.body;
+    this.todo = todo;
   }
 }
 </script>
